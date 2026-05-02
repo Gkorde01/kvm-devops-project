@@ -1,0 +1,2 @@
+[vm]
+vm1 ansible_host=192.168.122.148 ansible_user=gkorde ansible_become=true

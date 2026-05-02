@@ -1,0 +1,30 @@
+- name: Configure VM as Web Server
+  hosts: vm
+  become: true
+  gather_facts: true
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Ensure nginx is started and enabled
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Verify nginx is running
+      command: systemctl status nginx
+      register: nginx_status
+      changed_when: false
+
+    - name: Show nginx status
+      debug:
+        var: nginx_status.stdout_lines
