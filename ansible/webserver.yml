@@ -29,4 +29,3 @@
       debug:
         var: nginx_status.stdout_lines
 #test
-#jjjsds
