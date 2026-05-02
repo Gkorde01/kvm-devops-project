@@ -30,5 +30,3 @@
         var: nginx_status.stdout_lines
 # auto trigger test
 # Test CICD auto triggered
-# Test 3 
-# Test 4
