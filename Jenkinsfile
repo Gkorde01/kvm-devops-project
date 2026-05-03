@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+    }
+
+    environment {
+        TARGET_IP = "192.168.122.148"
+    }
+
     stages {
 
         stage('Clone Repo') {
@@ -13,7 +21,7 @@ pipeline {
             steps {
                 sh '''
                 cd ansible
-                ansible-playbook -i inventory.ini site.yml
+                ansible-playbook -i inventory.ini site.yml -vvv
                 '''
             }
         }
@@ -21,9 +29,18 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 sh '''
-                curl -s http://192.168.122.148 || true
+                curl -f http://$TARGET_IP
                 '''
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
         }
     }
 }
