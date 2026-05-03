@@ -1,0 +1,19 @@
+terraform {
+  required_providers {
+    libvirt = {
+      source  = "dmacvicar/libvirt"
+      version = "0.9.7"
+    }
+  }
+}
+
+provider "libvirt" {
+  uri = "qemu:///system"
+}
+
+resource "libvirt_domain" "vm2" {
+  name   = "vm2"
+  memory = 1024
+  vcpu   = 1
+  type   = "kvm"
+}

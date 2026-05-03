@@ -1,0 +1,25 @@
+terraform {
+  required_providers {
+    virtualbox = {
+      source  = "terra-farm/virtualbox"
+      version = "0.2.2-alpha.1"
+    }
+  }
+}
+
+provider "virtualbox" {}
+
+resource "virtualbox_vm" "devops_vm" {
+  name   = "devops-vm"
+  image  = "https://app.vagrantup.com/ubuntu/boxes/jammy64/versions/20240110.0.0/providers/virtualbox.box"
+  cpus   = 1
+  memory = "1024 mib"
+
+  network_adapter {
+    type = "nat"
+  }
+
+  network_adapter {
+    type = "bridged"
+  }
+}

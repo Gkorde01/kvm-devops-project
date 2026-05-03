@@ -1,28 +1,29 @@
 terraform {
   required_providers {
-    libvirt = {
-      source  = "dmacvicar/libvirt"
-      version = "0.9.7"
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
   }
 }
 
-provider "libvirt" {
-  uri = "qemu:///system"
+provider "aws" {
+  region = "ap-south-1"
 }
 
-resource "libvirt_domain" "vm1" {
-  name   = "vm1"
-  memory = 1024
-  vcpu   = 1
-  type   = "kvm"
+resource "aws_instance" "devops_vm" {
+  ami           = "ami-0f5ee92e2d63afc18" # Ubuntu (Mumbai region example)
+  instance_type = "t2.micro"
 
-  network_interface {
-    network_name = "default"
+  tags = {
+    Name = "devops-vm"
   }
 
-  console {
-    type        = "pty"
-    target_port = "0"
-  }
+  user_data = <<-EOF
+              #!/bin/bash
+              apt update -y
+              apt install nginx -y
+              systemctl start nginx
+              systemctl enable nginx
+              EOF
 }
