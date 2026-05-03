@@ -5,28 +5,24 @@ pipeline {
 
         stage('Clone Repo') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/gkorde01/kvm-devops-project.git'
-                    ]]
-                ])
+                git 'https://github.com/gkorde01/kvm-devops-project.git'
             }
         }
 
-        stage('Run Ansible') {
+        stage('Run Ansible (Full Setup)') {
             steps {
                 sh '''
                 cd ansible
-                ansible-playbook -i inventory.ini webserver.yml
+                ansible-playbook -i inventory.ini site.yml
                 '''
             }
         }
 
-        stage('Verify') {
+        stage('Verify Deployment') {
             steps {
-                sh 'curl -s http://192.168.122.148 || true'
+                sh '''
+                curl -s http://192.168.122.148 || true
+                '''
             }
         }
     }
