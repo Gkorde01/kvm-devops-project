@@ -1,0 +1,20 @@
+# kvm_setup.yml
+- hosts: kvm
+  become: yes
+  tasks:
+
+    - name: Install KVM packages
+      apt:
+        name:
+          - qemu-kvm
+          - libvirt-daemon-system
+          - virtinst
+          - bridge-utils
+        state: present
+        update_cache: yes
+
+    - name: Start libvirt
+      service:
+        name: libvirtd
+        state: started
+        enabled: yes
