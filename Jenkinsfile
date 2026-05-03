@@ -19,10 +19,10 @@ pipeline {
 
         stage('Run Ansible (Full Setup)') {
             steps {
-                sh '''
-                cd ansible
-                ansible-playbook -i inventory.ini site.yml -vvv
-                '''
+               sh '''
+               cd ansible
+               ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.ini site.yml -vvv
+               '''
             }
         }
 
