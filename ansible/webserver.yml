@@ -1,4 +1,4 @@
- name: Configure VM as Web Server
+- name: Configure VM as Web Server
   hosts: vm
   become: true
   gather_facts: true
